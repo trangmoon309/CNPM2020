@@ -1,9 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/CNPM/BT1.java=UTF-8
 encoding//src/CNPM/BT2.java=UTF-8
-encoding//src/CNPM/Dashboard.java=UTF-8
-encoding//src/CNPM/Hodan.java=UTF-8
-encoding//src/CNPM/HomePage.java=UTF-8
-encoding//src/CNPM/Register.java=UTF-8
+encoding//src/CNPM/Model/Hodan.java=UTF-8
+encoding//src/CNPM/View/Dashboard.java=UTF-8
+encoding//src/CNPM/View/HomePage.java=UTF-8
+encoding//src/CNPM/View/Register.java=UTF-8
+encoding//src/CNPM/View/login.java=UTF-8
 encoding//src/CNPM/helloo.java=UTF-8
-encoding//src/CNPM/login.java=UTF-8

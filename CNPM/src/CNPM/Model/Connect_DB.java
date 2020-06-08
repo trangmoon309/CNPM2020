@@ -1,6 +1,7 @@
-package CNPM;
+package CNPM.Model;
 	import java.sql.Connection;
 	import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 		public static Connection getSQLServer() throws SQLException, ClassNotFoundException{
 			String hostName = "localhost";
 			String sqlInstanceName = "SQLEXPRESS";
-			String database = "QuanLiTiemChung";
+			String database = "QuanLyTiemChung";
 			String userName = "sa";
 			String password = "hpt309";
 			return getSQLServer(hostName, sqlInstanceName, database, userName, password);
@@ -21,9 +22,17 @@ import java.sql.SQLException;
 			return conn;
 			
 		}
+		/*
+		public Statement ExecutePreStatement(Connection conn,String query, Object[] paras) {
+			try {
+					String url = query;
+					PreparedStatement pre = conn.prepareStatement(url);
+					
+				}
+		} */
 		public static void main(String args[]) throws SQLException, ClassNotFoundException{
-			System.out.println("Connect to QuanLiTiemChung");
-			Connection conn = Connect_DB.getSQLServer("localhost", "SQLEXPRESS", "QuanLiTiemChung", "sa", "hpt309");
+			System.out.println("Connect to QuanLyTiemChung");
+			Connection conn = Connect_DB.getSQLServer("localhost", "SQLEXPRESS", "QuanLyTiemChung", "sa", "hpt309");
 			System.out.println(conn);
 }
 	}

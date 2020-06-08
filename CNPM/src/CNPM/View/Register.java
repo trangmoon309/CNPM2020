@@ -1,4 +1,4 @@
-package CNPM;
+package CNPM.View;
 
 import java.awt.EventQueue;
 
@@ -21,6 +21,10 @@ import java.awt.Toolkit;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
+
+import CNPM.Model.Connect_DB;
+import CNPM.Model.Hodan;
+
 import java.awt.Color;
 
 import javax.swing.JCheckBox;
@@ -32,9 +36,11 @@ import java.awt.event.MouseMotionAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 
-import CNPM.Connect_DB;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -253,6 +259,13 @@ public class Register {
 				// cbDay.getSelectedItem().toString() ;
 				// java.util.Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(Dob);
 				String Dob = txtdob.getText();
+				java.util.Date  dob = null;
+					try {
+						dob = new SimpleDateFormat("dd/MM/yyyy").parse(Dob);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				String phonenumber = txtsdt.getText();
 				String address = textAreaadd.getText();
 
@@ -281,7 +294,8 @@ public class Register {
 							pre.setString(7, Dob);
 							pre.execute();
 							JOptionPane.showMessageDialog(null, "Successfull Register!");
-							Dashboard db = new Dashboard(username);
+							Hodan user = new Hodan(username,pass,fullname,Dob,Gender,phonenumber,address);
+							Dashboard db = new Dashboard(user);
 							db.setVisible(true);
 							pre.close();
 

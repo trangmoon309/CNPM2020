@@ -1,4 +1,4 @@
-package CNPM;
+package CNPM.Model;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,20 +11,31 @@ public class Vacxin {
 	private String idVaccine;
 	private String tenvaccine;
 	private int soluong;
-	private List<Vacxin> vaccine = new ArrayList<Vacxin>();
-	public List<Vacxin> getvaccine(){
-		return this.vaccine;
+	private String idVatNuoi;
+	private static List<Vacxin> vaccines = new ArrayList<Vacxin>();
+	
+	public Vacxin(){
+
 	}
 	
-	public Vacxin() {
-		
+	public static List<Vacxin> getVacxins() throws SQLException {
+		Connection conn = null;
+		String url = "select * from dbo.Vaccine_r";
+		Statement st = conn.createStatement();
+		ResultSet rs= st.executeQuery(url);
+		while(rs.next()) {
+			Vacxin item = new Vacxin(rs.getString("idVaccine"),rs.getString("Vaccine_name"),rs.getInt("Number"),rs.getString("idVatNuoi"));
+			vaccines.add(item);
+		}
+		return vaccines;
 	}
 	
-	public Vacxin(String idVaccine, String tenvaccine, int soluong) {
+	public Vacxin(String idVaccine, String tenvaccine, int soluong, String idVatnuoi) {
 		super();
 		this.idVaccine = idVaccine;
 		this.tenvaccine = tenvaccine;
 		this.soluong = soluong;
+		this.idVatNuoi = idVatnuoi;
 	}
 
 
@@ -63,27 +74,27 @@ public class Vacxin {
 
 	Connection conn = null;
 
-	//Edit By Trang
-	public String getIDByAnimalName(String animalName) {
-		Animal a = new Animal();
-		String id = "";
-		String idVatNuoi = a.getIDByAnimalName(animalName);
+	
+	public static String getIDVaccine(String idVatNuoi) {
+		Connection conn;
+		String id =null;
 		try {
 			conn = Connect_DB.getSQLServer();
-			String query = "  select idVaccine from dbo.Vaccine_r where idVatNuoi= '" + idVatNuoi + "'";
+			String url = "select idVaccine from dbo.Vaccine_r where idVatNuoi='"  + idVatNuoi + "'";
 			Statement st = conn.createStatement();
-			ResultSet rs= st.executeQuery(query);
+			ResultSet rs= st.executeQuery(url);
 			while(rs.next()) {
 				id = rs.getString("idVaccine");
 			}
 		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return id;
 	}
-	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -91,9 +102,3 @@ public class Vacxin {
 	}
 
 }
-
-/*
- * "idVaccine" null NOT NULL,
-	"tenVaccine" null,
-	"soluong" INT,
- */

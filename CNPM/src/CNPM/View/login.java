@@ -1,4 +1,4 @@
-package CNPM;
+package CNPM.View;
 
 import java.awt.EventQueue;
 
@@ -30,6 +30,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
@@ -37,8 +38,9 @@ import java.awt.event.ActionEvent;
 
 import java.sql.Connection;
 
-import CNPM.Register;
-import CNPM.Connect_DB;
+import CNPM.Model.Connect_DB;
+import CNPM.Model.Hodan;
+
 import java.awt.Rectangle;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -130,10 +132,9 @@ public class login {
 		btnlogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-
-					String url = "select * from Admin where Username = ? and iPassword = ?";
+					String url = "select * from dbo.Person where Username = ? and iPassword= ?";
 					PreparedStatement pre = connect.prepareStatement(url);
-
+					Hodan user = null;
 					char getpass[];
 					String password = "";
 					getpass = passwordField.getPassword();
@@ -141,43 +142,31 @@ public class login {
 
 					pre.setString(1, txtUsername.getText());
 					pre.setString(2, password);
-					
-					//Find in Admin
 					ResultSet rs = pre.executeQuery();
 					int count = 0;
 					while (rs.next()) {
 						count++;
+						int idUser = rs.getInt("idUser");
+						String Username = rs.getString("Username");
+						String iPassword = rs.getString("iPassword");
+						String Fullname = rs.getString("Fullname");
+						String Gender = rs.getString("Gender");
+						String PhoneNumber = rs.getString("PhoneNumber");
+						String iAddress = rs.getString("iAddress");
+						String date =  rs.getString("Dob");
+						String irole = rs.getString("irole");
+						String iVatnuoi = rs.getString("iVatnuoi");
+						user = new Hodan(idUser,iVatnuoi,Username,iPassword,Fullname,date,Gender,PhoneNumber,iAddress,irole);
+
 					}
 					if (count >0) {
-						//1: Admin
-						//0: Hodan
-						Dashboard db = new Dashboard(txtUsername.getText(),1);
+						Dashboard db = new Dashboard(user);
 						db.setVisible(true);
 						frmLogin.setVisible(false);
 					}
-					//Find in HoDan
 					else {
-						String url2 = " select * from dbo.Hodan where Username = ? and Password= ?";
-						PreparedStatement pre2 = connect.prepareStatement(url2);
-						pre2.setString(1, txtUsername.getText());
-						pre2.setString(2, password);
-						ResultSet rs2 = pre2.executeQuery();
-						int count2 =0;
-						while(rs2.next()) {
-							count2++;
-						}
-						if(count2>0) {
-							Dashboard db = new Dashboard(txtUsername.getText(),0);
-							db.setVisible(true);
-							frmLogin.setVisible(false);
-						}
-						else {
-							JOptionPane.showMessageDialog(null, txtUsername.getText() + "/" + password);
-						}
-						rs2.close();
-						pre2.close();
+						JOptionPane.showMessageDialog(null, "Incorrect username/password!");
 					}
-
 					rs.close();
 					pre.close();
 

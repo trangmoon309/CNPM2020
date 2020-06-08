@@ -1,16 +1,17 @@
-package CNPM;
+package CNPM.Model;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Hodan {
 	
 	private List<Hodan> hodan = new ArrayList<Hodan>();
-	private String idHodan;
+	private int idHodan;
 	private String idVatnuoi;
 	private String Username;
 	private String Password;
@@ -19,17 +20,32 @@ public class Hodan {
 	private String Gender;
 	private String Phonenumber;
 	private String Address;
-	
+	private String iRole;
 	
 	public List<Hodan>  gethodan(){
 		return this.hodan;
 	}
-	public String getIdHodan() {
+	public int getIdHodan() {
 		return idHodan;
 	}
 
-
-	public void setIdHodan(String idHodan) {
+	public Hodan(int idHodan, String idVatnuoi, String username, String password, String fullname, String dob,
+			String gender, String phonenumber, String address, String role) {
+		super();
+		this.idHodan = idHodan;
+		this.idVatnuoi = idVatnuoi;
+		Username = username;
+		Password = password;
+		Fullname = fullname;
+		Dob = dob;
+		Gender = gender;
+		Phonenumber = phonenumber;
+		Address = address;
+		iRole = role;
+		
+	}
+	
+	public void setIdHodan(int idHodan) {
 		this.idHodan = idHodan;
 	}
 
@@ -114,13 +130,9 @@ public class Hodan {
 	}
 
 
-	
-	 
-
-	public Hodan(String idHodan, String idVatnuoi, String username, String password, String fullname, String dob,
+	public Hodan(String username, String password, String fullname, String dob,
 			String gender, String phonenumber, String address) {
 		super();
-		this.idHodan = idHodan;
 		this.idVatnuoi = idVatnuoi;
 		Username = username;
 		Password = password;
@@ -131,6 +143,8 @@ public class Hodan {
 		Address = address;
 		
 	}
+	
+	
 	public void Add() {
 		
 	}
@@ -141,12 +155,34 @@ public class Hodan {
 	 		idHodan, idVatnuoi	, Username, Password, Fullname, Dob, Gender, Phonenumber);
 }
 	Connection conn = null;
-	public Hodan() {}
-	public String getFullName(String userName) {
+	public Hodan(String u, String p) {
+		Username = u;
+		Password =p;
+	}
+	
+	public String getRole() {
+		String role ="";
+		try {
+			conn = Connect_DB.getSQLServer();
+			String query = " select irole from Person where Username = '" + Username + "'";
+			Statement st = conn.createStatement();
+			ResultSet rs= st.executeQuery(query);
+			while(rs.next()) {
+				role = rs.getString("irole");
+			}
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return role;
+	}
+	
+	public String getFullName() {
 		String fname ="";
 		try {
 			conn = Connect_DB.getSQLServer();
-			String query = "select Fullname from dbo.HoDan where Username='" + userName + "'";
+			String query = "select Fullname from dbo.Person where Username='" + Username + "'";
 			Statement st = conn.createStatement();
 			ResultSet rs= st.executeQuery(query);
 			while(rs.next()) {

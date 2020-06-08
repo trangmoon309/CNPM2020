@@ -1,4 +1,4 @@
-package CNPM;
+package CNPM.Model;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

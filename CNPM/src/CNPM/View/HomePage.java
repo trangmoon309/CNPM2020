@@ -1,4 +1,4 @@
-package CNPM;
+package CNPM.View;
 
 import java.awt.EventQueue;
 

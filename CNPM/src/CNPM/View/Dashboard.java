@@ -1,5 +1,5 @@
 
-package CNPM;
+package CNPM.View;
 
 import java.awt.Color;
 
@@ -34,15 +34,17 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.MatteBorder;
 
+import CNPM.Model.Connect_DB;
+import CNPM.Model.Hodan;
+
 @SuppressWarnings("serial")
 public class Dashboard extends JFrame {
 
 	static boolean maximized = true;
 	Connection conn = null;
-	String userName;
-	int flag;
 	int xMouse;
 	int yMouse;
+	Hodan user;
 
 	private JButton btnExit, btnMaximize, btnMinimize, btnNews, btnTimeline;
 	private JLabel fullname, jLabel12, jLabel13, jLabel17, jLabel6, jLabel7, jLabel8, jLabel9, lblNewLabel, lblNews,
@@ -61,46 +63,15 @@ public class Dashboard extends JFrame {
 	}
 	
 	//Edit by Trang
-	public Dashboard(String u) {
-		userName = u;
+	public Dashboard(Hodan user) {
+		this.user = user;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Dashboard.class.getResource("/gambar/dashboard (2).png")));
 		getContentPane().setBackground(SystemColor.activeCaption);
 		initComponents();
+		//String fullName = getFullName(u);
+		fullname.setText(user.getFullname());
 	}
 	
-	public Dashboard(String u, int f) {
-		flag= f;
-		userName = u;
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Dashboard.class.getResource("/gambar/dashboard (2).png")));
-		getContentPane().setBackground(SystemColor.activeCaption);
-		initComponents();
-		String fullName = getFullName(f);
-		fullname.setText(fullName);
-	}
-	
-	String getFullName(int flag) {
-		String fullName ="";
-		try {
-			conn = Connect_DB.getSQLServer();
-			String query ="";
-			if(flag==1) {
-				query = "  select FullName from dbo.Admin where Username='" + userName + "'";
-			}
-			else if(flag==0) {
-				query = "  select FullName from dbo.Hodan where Username='" + userName + "'";
-			}
-			Statement st = conn.createStatement();
-			ResultSet rs= st.executeQuery(query);
-			while(rs.next()) {
-				fullName = rs.getString("FullName");
-			}
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return fullName;
-	}
 
 
 	private void initComponents() {
@@ -140,7 +111,8 @@ public class Dashboard extends JFrame {
 		jPanel2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RegisterTiem rgTiem = new RegisterTiem(userName);
+				Hodan userClone = user;
+				RegisterTiem rgTiem = new RegisterTiem(userClone);
 				rgTiem.setVisible(true);
 				rgTiem.setLocationRelativeTo(null);
 			}

@@ -1,4 +1,4 @@
-package CNPM;
+package CNPM.View;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -15,6 +15,13 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDayChooser;
+
+import CNPM.Model.Animal;
+import CNPM.Model.Connect_DB;
+import CNPM.Model.Hodan;
+import CNPM.Model.RegisterTiemModel;
+import CNPM.Model.Vacxin;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -47,8 +54,9 @@ public class RegisterTiem extends JFrame {
 	private JTextField tbSL2;
 	private JTextField tbSL3;
 	private JTextField tbDate;
-	String userName;
+	Hodan user;
 	Connection conn = null;
+	int slVatNuoi =1;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -64,8 +72,8 @@ public class RegisterTiem extends JFrame {
 	}
 
 
-	public RegisterTiem(String u) {
-		userName = u;
+	public RegisterTiem(Hodan u) {
+		this.user = u;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 930, 640);
 		contentPane = new JPanel();
@@ -204,20 +212,20 @@ public class RegisterTiem extends JFrame {
 		tbHoten.setColumns(10);
 		
 		JComboBox cbVN1 = new JComboBox();
-		cbVN1.setModel(new DefaultComboBoxModel(new String[] {"Ngan", "V\u1ECBt", "Ng\u1ED7ng", "G\u00E0", "B\u00F2", "Tr\u00E2u", "D\u00EA", "C\u1EEBu ", "Heo"}));
+		cbVN1.setModel(new DefaultComboBoxModel(new String[] {"Ngan", "V\u1ECBt", "G\u00E0", "B\u00F2", "Tr\u00E2u", "D\u00EA", "Heo"}));
 		cbVN1.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		cbVN1.setBounds(180, 197, 117, 29);
 		panel_1.add(cbVN1);
 		
 		JComboBox cbVN2 = new JComboBox();
-		cbVN2.setModel(new DefaultComboBoxModel(new String[] {"Ngan", "V\u1ECBt", "Ng\u1ED7ng", "G\u00E0", "B\u00F2", "Tr\u00E2u", "D\u00EA", "C\u1EEBu ", "Heo"}));
+		cbVN2.setModel(new DefaultComboBoxModel(new String[] {"Ngan", "V\u1ECBt", "G\u00E0", "B\u00F2", "Tr\u00E2u", "D\u00EA", "Heo"}));
 		cbVN2.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		cbVN2.setBounds(180, 290, 117, 29);
 		cbVN2.setVisible(false);
 		panel_1.add(cbVN2);
 		
 		JComboBox cbVN3 = new JComboBox();
-		cbVN3.setModel(new DefaultComboBoxModel(new String[] {"Ngan", "V\u1ECBt", "Ng\u1ED7ng", "G\u00E0", "B\u00F2", "Tr\u00E2u", "D\u00EA", "C\u1EEBu ", "Heo"}));
+		cbVN3.setModel(new DefaultComboBoxModel(new String[] {"Ngan", "V\u1ECBt", "G\u00E0", "B\u00F2", "Tr\u00E2u", "D\u00EA", "Heo"}));
 		cbVN3.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		cbVN3.setBounds(180, 384, 117, 29);
 		cbVN3.setVisible(false);
@@ -242,7 +250,7 @@ public class RegisterTiem extends JFrame {
 		tbSL3.setBounds(180, 430, 116, 29);
 		tbSL3.setVisible(false);
 		panel_1.add(tbSL3);
-		tbHoten.setText(userName);
+		tbHoten.setText(user.getFullname());
 		tbHoten.setEditable(false);
 		
 		//Button DangKy Event Handler
@@ -251,26 +259,40 @@ public class RegisterTiem extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				RegisterTiemModel model = new RegisterTiemModel();
-				Vacxin vx = new Vacxin();
+				//Vacxin vx = new Vacxin();
 				Animal ani = new Animal();
-
 				try {
 					conn = Connect_DB.getSQLServer();
-					String query = "insert into DangkiTiem(idHodan,idVaccine,idVatNuoi,Number,Date_register) values (?,?,?,?,?)";
-					PreparedStatement pre = conn.prepareStatement(query);
-					
-					int idHD = model.getIDfromUserName(userName);
-					pre.setInt(1, idHD);
-					pre.setString(2,vx.getIDByAnimalName(cbVN1.getSelectedItem().toString()));
-					pre.setString(3,ani.getIDByAnimalName(cbVN1.getSelectedItem().toString()));
-					pre.setInt(4, Integer.parseInt(tbSL1.getText()));
-					
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-					String dateInString = tbDate.getText();
-					java.sql.Date sqlDate = java.sql.Date.valueOf( dateInString );
-					pre.setDate(5, sqlDate);
-					int row= pre.executeUpdate();
-					if(row != 0) JOptionPane.showMessageDialog(null,"Thanh cong!");
+					int i=1;
+					String tenVN="";
+					while(slVatNuoi >0) {
+						String query = "insert into DangkiTiem(idHodan,idVatNuoi,idVaccine,Number,Date_register) values (?,?,?,?,?)";
+						PreparedStatement pre = conn.prepareStatement(query);
+						if(i==1) {
+							tenVN = cbVN1.getSelectedItem().toString();
+						}
+						else if(i==2) {
+							tenVN = cbVN2.getSelectedItem().toString();
+						}
+						else if(i==3) {
+							tenVN = cbVN3.getSelectedItem().toString();
+						}
+						int idHD = user.getIdHodan();
+						String IDVN = Animal.getIDByAnimalName(tenVN);
+						pre.setInt(1, idHD);
+						pre.setString(2, IDVN);
+						pre.setString(3,Vacxin.getIDVaccine(IDVN));
+						pre.setInt(4, Integer.parseInt(tbSL1.getText()));
+						String dateInString = tbDate.getText();
+						java.sql.Date sqlDate = java.sql.Date.valueOf( dateInString );
+						pre.setDate(5, sqlDate);
+						int row= pre.executeUpdate();
+						slVatNuoi--;
+						i++;
+						if(row != 0) JOptionPane.showMessageDialog(null,"Thanh cong!");
+					}
+
+
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				} catch (SQLException e1) {
@@ -294,6 +316,7 @@ public class RegisterTiem extends JFrame {
 					lbVN2.setVisible(true);
 					lbSL2.setVisible(true);
 					btnDangKy.setBounds(180, 400, 158, 42);
+					slVatNuoi =2;
 				}
 				else if(Integer.parseInt(selectedItem) == 3) {
 					cbVN2.setVisible(true);
@@ -305,6 +328,7 @@ public class RegisterTiem extends JFrame {
 					lbVN3.setVisible(true);
 					lbSL3.setVisible(true);
 					btnDangKy.setBounds(180, 490, 158, 42);
+					slVatNuoi =3;
 				}
 				else {
 					cbVN2.setVisible(false);
@@ -316,6 +340,7 @@ public class RegisterTiem extends JFrame {
 					lbVN3.setVisible(false);
 					lbSL3.setVisible(false);
 					btnDangKy.setBounds(180, 315, 158, 42);
+					slVatNuoi = 1;
 				}
 			}
 		});
@@ -324,8 +349,6 @@ public class RegisterTiem extends JFrame {
 		cbSL.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		cbSL.setBounds(180, 150, 60, 34);
 		panel_1.add(cbSL);
-
-		
 
 		
 	}

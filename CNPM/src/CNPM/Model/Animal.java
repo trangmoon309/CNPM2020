@@ -1,4 +1,4 @@
-package CNPM;
+package CNPM.Model;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,11 +11,20 @@ public class Animal {
 	private String idVatnuoi;
 	private String tenVatnuoi;
 	
-	private List<Animal> ani = new ArrayList<Animal>();
+	private static List<Animal> anis = new ArrayList<Animal>();
 	
-	public List<Animal> getani(){
-		return this.ani;
+	public static List<Animal> getAnimals() throws SQLException{
+		Connection conn = null;
+		String url = "select * from dbo.Animal";
+		Statement st = conn.createStatement();
+		ResultSet rs= st.executeQuery(url);
+		while(rs.next()) {
+			Animal item = new Animal(rs.getString("idVatNuoi"),rs.getString("Vatnuoi_name"));
+			anis.add(item);
+		}
+		return anis;
 	}
+	
 	public String getIdVatnuoi() {
 		return idVatnuoi;
 	}
@@ -44,12 +53,12 @@ public class Animal {
 	public String toString() {
 	 return String.format("Animal[idVatnuoi = %s, tenVatnuoi = %s]", idVatnuoi, tenVatnuoi);
 }
-	Connection conn = null;
+	static Connection conn = null;
 	//Edit By Trang
 		public Animal() {
 			
 		}
-		public String getIDByAnimalName(String animalName) {
+		public static String getIDByAnimalName(String animalName) {
 			String id = "";
 			try {
 				conn = Connect_DB.getSQLServer();
