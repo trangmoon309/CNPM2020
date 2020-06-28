@@ -75,24 +75,20 @@ public class Vacxin {
 	Connection conn = null;
 
 	
-	public static String getIDVaccine(String idVatNuoi) {
-		Connection conn;
+	public static String getIDVaccine(Connection conn,String idVatNuoi) {
 		String id =null;
-		try {
-			conn = Connect_DB.getSQLServer();
+	
 			String url = "select idVaccine from dbo.Vaccine_r where idVatNuoi='"  + idVatNuoi + "'";
-			Statement st = conn.createStatement();
-			ResultSet rs= st.executeQuery(url);
-			while(rs.next()) {
-				id = rs.getString("idVaccine");
+			Statement st;
+			try {
+				st = conn.createStatement();
+				ResultSet rs= st.executeQuery(url);
+				while(rs.next()) {
+					id = rs.getString("idVaccine");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		return id;
 	}
 

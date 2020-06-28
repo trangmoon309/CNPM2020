@@ -29,11 +29,10 @@ public class Hodan {
 		return idHodan;
 	}
 
-	public Hodan(int idHodan, String idVatnuoi, String username, String password, String fullname, String dob,
+	public Hodan(int idHodan,String username, String password, String fullname, String dob,
 			String gender, String phonenumber, String address, String role) {
 		super();
 		this.idHodan = idHodan;
-		this.idVatnuoi = idVatnuoi;
 		Username = username;
 		Password = password;
 		Fullname = fullname;

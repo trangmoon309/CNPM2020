@@ -54,6 +54,9 @@ public class Dashboard extends JFrame {
 	private GroupLayout pnlHeaderLayout, pnlMenuLayout, jPanel1Layout, jPanel2Layout, jPanel3Layout, jPanel4Layout,
 			pnlTimelineLayout, layout, gl_panel, pnlNewsLayout;
 	private JSeparator separator;
+	private JPanel jPanel4_1;
+	private JLabel lblQunLH;
+	private JLabel lblNewLabel_1;
 	
 
 	public Dashboard() {
@@ -426,30 +429,81 @@ public class Dashboard extends JFrame {
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		jPanel4.setLayout(jPanel4Layout);
+		
+		jPanel4_1 = new JPanel();
+		jPanel4_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 102, 255)));
+		jPanel4_1.setBackground(new Color(212, 233, 238));
+		
+		lblQunLH = new JLabel();
+		lblQunLH.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				QuanLiHoDan ql = new QuanLiHoDan(user);
+				ql.setVisible(true);
+			}
+		});
+		lblQunLH.setText("Quản lý hộ dân");
+		lblQunLH.setOpaque(true);
+		lblQunLH.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQunLH.setForeground(Color.BLACK);
+		lblQunLH.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblQunLH.setBackground(new Color(186, 207, 250));
+		
+		lblNewLabel_1 = new JLabel();
+		lblNewLabel_1.setIcon(new ImageIcon(Dashboard.class.getResource("/gambar/people (1).png")));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		GroupLayout gl_jPanel4_1 = new GroupLayout(jPanel4_1);
+		gl_jPanel4_1.setHorizontalGroup(
+			gl_jPanel4_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 252, Short.MAX_VALUE)
+				.addComponent(lblQunLH, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+				.addGroup(gl_jPanel4_1.createSequentialGroup()
+					.addGap(19)
+					.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+					.addGap(24))
+		);
+		gl_jPanel4_1.setVerticalGroup(
+			gl_jPanel4_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 240, Short.MAX_VALUE)
+				.addGroup(gl_jPanel4_1.createSequentialGroup()
+					.addComponent(lblQunLH, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		jPanel4_1.setLayout(gl_jPanel4_1);
 
 		pnlTimelineLayout = new GroupLayout(pnlTimeline);
-		pnlTimelineLayout.setHorizontalGroup(pnlTimelineLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(pnlTimelineLayout.createSequentialGroup().addGap(70)
-						.addGroup(pnlTimelineLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(50)
-						.addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addGap(52).addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addGap(61)));
-		pnlTimelineLayout.setVerticalGroup(pnlTimelineLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(pnlTimelineLayout.createSequentialGroup().addGap(34).addGroup(pnlTimelineLayout
-						.createParallelGroup(Alignment.TRAILING, false)
+		pnlTimelineLayout.setHorizontalGroup(
+			pnlTimelineLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(pnlTimelineLayout.createSequentialGroup()
+					.addGap(70)
+					.addGroup(pnlTimelineLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(50)
+					.addGroup(pnlTimelineLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(pnlTimelineLayout.createSequentialGroup()
+							.addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(52)
+							.addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(jPanel4_1, GroupLayout.PREFERRED_SIZE, 252, GroupLayout.PREFERRED_SIZE))
+					.addGap(61))
+		);
+		pnlTimelineLayout.setVerticalGroup(
+			pnlTimelineLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(pnlTimelineLayout.createSequentialGroup()
+					.addGap(34)
+					.addGroup(pnlTimelineLayout.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGap(27).addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(50, Short.MAX_VALUE)));
+					.addGap(27)
+					.addGroup(pnlTimelineLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(jPanel4, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(jPanel4_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(50, Short.MAX_VALUE))
+		);
 		pnlTimeline.setLayout(pnlTimelineLayout);
 
 		jspTimeline.setViewportView(pnlTimeline);

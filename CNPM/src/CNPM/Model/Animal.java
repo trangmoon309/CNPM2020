@@ -58,21 +58,22 @@ public class Animal {
 		public Animal() {
 			
 		}
-		public static String getIDByAnimalName(String animalName) {
+		public static String getIDByAnimalName(Connection conn, String animalName) {
 			String id = "";
-			try {
-				conn = Connect_DB.getSQLServer();
 				String query = " select idVatNuoi from dbo.Animal where Vatnuoi_name='" + animalName + "'";
-				Statement st = conn.createStatement();
-				ResultSet rs= st.executeQuery(query);
-				while(rs.next()) {
-					id = rs.getString("idVatNuoi");
+
+				try {
+					Statement st = conn.createStatement();
+					ResultSet rs;
+					rs = st.executeQuery(query);
+					while(rs.next()) {
+						id = rs.getString("idVatNuoi");
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+
 			return id;
 		}
 			

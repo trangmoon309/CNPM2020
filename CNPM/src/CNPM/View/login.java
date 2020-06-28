@@ -156,7 +156,7 @@ public class login {
 						String date =  rs.getString("Dob");
 						String irole = rs.getString("irole");
 						String iVatnuoi = rs.getString("iVatnuoi");
-						user = new Hodan(idUser,iVatnuoi,Username,iPassword,Fullname,date,Gender,PhoneNumber,iAddress,irole);
+						user = new Hodan(idUser,Username,iPassword,Fullname,date,Gender,PhoneNumber,iAddress,irole);
 
 					}
 					if (count >0) {
@@ -198,7 +198,7 @@ public class login {
 				frmLogin.dispose();
 				Register regist = new Register();
 				regist.Show();
-
+				
 			}
 		});
 		lblnewacc.setHorizontalAlignment(SwingConstants.CENTER);
